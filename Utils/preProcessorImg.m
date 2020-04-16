@@ -8,8 +8,8 @@ function Imgs = preProcessorImg(imagens)
     for image = imagens
         imagemReshaped = reshape(image, [heightImage,widthImage]);
 %         imagemPreProcessada =  aplicarFiltro(imagemPreProcessada);
-        imagemReshapedBack = reshape(imagemReshaped, [heightImage*widthImage,1]);
-        imagensPreProcessadas = [imagensPreProcessadas, imagemReshapedBack];
+        imagemReshapedBack = reshape(imagemReshaped, [1, heightImage*widthImage]);
+        imagensPreProcessadas = [imagensPreProcessadas; imagemReshapedBack];
     end
     Imgs = imagensPreProcessadas;
     

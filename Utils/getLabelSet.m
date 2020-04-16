@@ -1,13 +1,7 @@
-function data = getLabelSet(percentInicial, percentFinal)
+function data = getLabelSet()
     fprintf('\n-> Iniciando leitura do CSV com as labels...\n');
     tic
-    table = readtable('..\Dataset\LabelSet.csv','ReadRowNames',true);
-    qtdRegistros = size(table,1);
-    
-    inicio = fix(percentInicial * qtdRegistros + 1);
-    fim = fix(percentFinal * qtdRegistros);
-    
-    data = table(inicio:fim,:);
+    data = readtable('..\Dataset\LabelSet.csv','ReadRowNames',true);
     toc
     fprintf('<- Finalizada a leitura do CSV com as labels.')
 end

@@ -3,36 +3,34 @@ clear; close all; clc;
 cd('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Utils');
 
 % porcentagemTreino = 0.7;
-% porcentagemTeste = 0.3;
 % 
-% fprintf('Lendo dados para treinamento...\n')
-% TrainLabels = getLabelSet(0,porcentagemTreino);
-% TrainImages = getDataSet(TrainLabels.Properties.RowNames);
-% 
-% fprintf('\n\nLendo dados para teste...\n')
-% TestLabels = getLabelSet(porcentagemTreino, porcentagemTreino + porcentagemTeste);
-% TestImages = getDataSet(TestLabels.Properties.RowNames);
+% fprintf('Obtendo dados...\n')
+% labels = getLabelSet();
+% images = transpose(getDataSet(labels.Properties.RowNames));
 
 load('..\Utils\workspace.mat');
 
-y_train = TrainLabels(:,1);
-X_train = preProcessorImg(TrainImages);
-X_train = transpose(X_train);
+imagesPreProcessed = preProcessorImg(transpose(images));
+labels = labels(:,1);
 
-y_test = TestLabels(:,1);
-X_test = preProcessorImg(TestImages);
-X_test = transpose(X_test);
+TrainImages = double(imagesPreProcessed(1:fix(size(imagesPreProcessed,1)*porcentagemTreino), :));
+TrainLabels = grp2idx(table2array(labels(1:fix(size(labels,1)*porcentagemTreino), :)));
 
-y_train_number = grp2idx(table2array(y_train));
-y_test_number = grp2idx(table2array(y_test));
+TestImages = double(imagesPreProcessed(fix(size(imagesPreProcessed,1)*porcentagemTreino)+1: size(imagesPreProcessed,1), :));
+TestLabels = grp2idx(table2array(labels(fix(size(labels,1)*porcentagemTreino)+1: size(labels,1), :)));
 
 fprintf('\n\n-> Realizando Treinamento...\n');
 tic
-Md1 = fitcknn(double(X_train),y_train_number,'NumNeighbors',6,'Distance','chebychev');
+Md1 = fitcknn(TrainImages,TrainLabels,'NumNeighbors',6,'Distance','chebychev');
 toc
 fprintf('<- Treinamento Concluído.')
-y_predicted_md1 = predict(Md1, double(X_test));
-acuracia_md1 = sum(y_predicted_md1 == y_test_number)/length(y_test_number)*100;
+
+fprintf('\n\n-> Realizando Teste...\n');
+tic
+y_predicted_md1 = predict(Md1, double(TestImages));
+acuracia_md1 = sum(y_predicted_md1 == TestLabels)/length(TestLabels)*100;
+toc
+fprintf('<- Teste Concluído.')
 
 fprintf('\n\nExecução Finalizada.\n')
 cd('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Classificadores');

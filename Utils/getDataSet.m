@@ -3,7 +3,7 @@ function data = getDataSet(labels)
     tic
     
     data = [];
-    baseFolder = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\Dataset\');
+    baseFolder = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Dataset\');
     
     for label = transpose(labels)
         folderName = strcat(baseFolder,char(label));

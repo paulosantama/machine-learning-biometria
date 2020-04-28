@@ -1,8 +1,8 @@
-function acuracia_md1 = knn(TrainImages, TrainLabels, TestImages, TestLabels)
-    fprintf('\n\n-> Modelo: KNN...');
+function acuracia_md1 = tree(TrainImages, TrainLabels, TestImages, TestLabels)
+    fprintf('\n\n-> Modelo: Decision Tree...');
     fprintf('\n-> Realizando Treinamento...\n');
     tic
-    Md1 = fitcknn(TrainImages,TrainLabels,'NumNeighbors',6,'Distance','chebychev');
+    Md1 = fitctree(TrainImages,TrainLabels,'MinLeafSize',55);
     toc
     fprintf('<- Treinamento Concluído.')
 

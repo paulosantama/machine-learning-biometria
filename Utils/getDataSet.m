@@ -8,9 +8,9 @@ function data = getDataSet(labels)
     for label = transpose(labels)
         folderName = strcat(baseFolder,char(label));
         
-        nomeImagemPrimaria = '\04_R_N_H_P.tif';
-        nomeImagemSecundaria = '\04_R_N_H_P_1.tif';
-        nomeImagemTerciaria = '\04_R_N_H_P_01.tif';
+        nomeImagemPrimaria = '\08_R_N_L_P.tif';
+        nomeImagemSecundaria = '\08_R_N_L_P_1.tif';
+        nomeImagemTerciaria = '\08_R_N_L_P_01.tif';
         
         if isfile(strcat(folderName, nomeImagemPrimaria))
             img = imread(strcat(folderName, nomeImagemPrimaria));

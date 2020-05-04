@@ -10,8 +10,8 @@ for image = imagens
     imagemReshaped = reshape(image, [heightImage,widthImage]);
     imagemPreProcessada =  aplicarFiltro(imagemReshaped);
     
-    path = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Base de Dados\Preprocessed\',int2str(i));
-    imwrite(imagemPreProcessada, strcat(path,'_mao.tif'));
+%     path = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Preprocessed\',int2str(i));
+%     imwrite(imagemPreProcessada, strcat(path,'_mao.tif'));
     
     imagemReshapedBack = reshape(imagemPreProcessada, [1, size(imagemPreProcessada,1)*size(imagemPreProcessada,2)]);
     imagensPreProcessadas = [imagensPreProcessadas; imagemReshapedBack];

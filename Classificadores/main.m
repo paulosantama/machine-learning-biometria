@@ -9,7 +9,7 @@ cd('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Utils');
 % labels = getLabelSet();
 % images = transpose(getDataSet(labels.Properties.RowNames));
 
-load('..\Utils\workspace.mat');
+load('..\Utils\workspace_08_R_N_L_P.mat');
 
 imagesPreProcessed = preProcessorImg(transpose(images));
 labels = labels(:,1);
@@ -23,5 +23,6 @@ TestLabels = grp2idx(table2array(labels(fix(size(labels,1)*porcentagemTreino)+1:
 cd('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Classificadores');
 acuraria_knn = knn(TrainImages, TrainLabels, TestImages, TestLabels);
 acuracia_tree = tree(TrainImages, TrainLabels, TestImages, TestLabels);
+acuracia_svm = svm_binary(TrainImages, TrainLabels, TestImages, TestLabels);
 
 fprintf('\n\nExecução Finalizada.\n')

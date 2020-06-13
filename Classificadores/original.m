@@ -13,61 +13,49 @@ categories = {'23','25',...
     '118','119','120','121','122','123','124','125','127'};
 imds = imageDatastore(fullfile(rootFolder, categories), 'LabelSource', 'foldernames');
 imds.ReadFcn = @readFunction;
+
 [trainingSet, testSet] = splitEachLabel(imds, 3);
-cd("..\Utils\Preprocessor")
 toc
 %% Preparação dos dados
 tic
-bag = bagOfFeatures(trainingSet);
-trainFeatures = encode(bag, trainingSet);
 
-beep
+sizeConcat = size(trainingSet.readimage(1),1)*size(trainingSet.readimage(1),2);
+concatImageMatrixTrain = zeros(size(trainingSet.Files,1), sizeConcat);
+for i = 1:size(trainingSet.Files,1)
+    img = trainingSet.readimage(i);
+    concatImageMatrixTrain(i, :) = reshape(img, [1, size(img,1)*size(img,2)]);
+end
+
 toc
 %% SVM
 fprintf('\nRealizando Treinamento...\n');
-% load("..\Workspace\NIR\CP\V2\workspace_16_L_N_L_BH_bagOfFeatures.mat");
 tic
 
-% t = templateSVM();
-% Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
-%     'Learners',t,...
-%     'Options', statset('UseParallel',true));
+t = templateSVM();
+Md1 = fitcecoc(concatImageMatrixTrain, transpose(trainingSet.Labels),...
+    'Learners',t);
 
-rng default
-t = templateSVM('BoxConstraint', 0.018576,...
-    'KernelScale', 0.0023518);
-Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
-    'Learners',t,...
-    'Coding', 'onevsall',...
-    'Options', statset('UseParallel',true));
-
-% Mdl = fitcecoc(trainFeatures, trainingSet.Labels,...
-%     'OptimizeHyperparameters','auto',...
-%     'HyperparameterOptimizationOptions',struct('AcquisitionFunctionName',...
-%     'expected-improvement-plus',...
-%     'UseParallel',true,...
-%     'ShowPlots',false,...
-%     'Verbose',1));
 beep
 toc
 %% Preparação dos dados de teste
 tic
 
-testFeatures = encode(bag, testSet);
+concatImageMatrixTest = zeros(size(testSet.Files,1),sizeConcat);
+for i = 1:size(testSet.Files,1)
+    img = testSet.readimage(i);
+    concatImageMatrixTest(i, :) = reshape(img, [1, size(img,1)*size(img,2)]);
+end
 
-beep
 toc
 %% Testando modelo
 tic
 
-[pred score cost] = predict(Md1, testFeatures);
+[pred score cost] = predict(Md1, concatImageMatrixTest);
 accuracy = sum(testSet.Labels == pred)/size(testSet.Labels,1);
 
 toc
-%% Finalizando execução
-cd("..\..\Classificadores")
 %% functions
 function I = readFunction(file)
     I = imread(file);
-    I = preprocessor_19_L_N_L_W(I);
+    I = imresize(I, 0.4, 'nearest');
 end

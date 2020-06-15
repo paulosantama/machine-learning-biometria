@@ -22,11 +22,17 @@ tic
 bag = bagOfFeatures(trainingSet);
 trainFeatures = encode(bag, trainingSet);
 
-beep
+% sizeConcat = size(trainingSet.readimage(1),1)*size(trainingSet.readimage(1),2)*3;
+% concatImageMatrixTrain = zeros(size(trainingSet.Files,1), sizeConcat);
+% for i = 1:size(trainingSet.Files,1)
+%     img = trainingSet.readimage(i);
+%     concatImageMatrixTrain(i, :) = reshape(img, [1, size(img,1)*size(img,2)*3]);
+% end
+
+% beep
 toc
 %% SVM
 fprintf('\nRealizando Treinamento...\n');
-% load("..\Workspace\NIR\CP\V2\workspace_16_L_N_L_BH_bagOfFeatures.mat");
 tic
 
 % t = templateSVM();
@@ -42,21 +48,20 @@ Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
     'Coding', 'onevsall',...
     'Options', statset('UseParallel',true));
 
-% Mdl = fitcecoc(trainFeatures, trainingSet.Labels,...
-%     'OptimizeHyperparameters','auto',...
-%     'HyperparameterOptimizationOptions',struct('AcquisitionFunctionName',...
-%     'expected-improvement-plus',...
-%     'UseParallel',true,...
-%     'ShowPlots',false,...
-%     'Verbose',1));
-beep
+% beep
 toc
 %% Preparação dos dados de teste
 tic
 
 testFeatures = encode(bag, testSet);
 
-beep
+% concatImageMatrixTest = zeros(size(testSet.Files,1),sizeConcat);
+% for i = 1:size(testSet.Files,1)
+%     img = testSet.readimage(i);
+%     concatImageMatrixTest(i, :) = reshape(img, [1, size(img,1)*size(img,2)*3]);
+% end
+
+% beep
 toc
 %% Testando modelo
 tic
@@ -64,6 +69,10 @@ tic
 [pred score cost] = predict(Md1, testFeatures);
 accuracy = sum(testSet.Labels == pred)/size(testSet.Labels,1);
 
+% [pred score cost] = predict(Md1, concatImageMatrixTest);
+% accuracy = sum(testSet.Labels == pred)/size(testSet.Labels,1); 
+
+beep
 toc
 %% Finalizando execução
 cd("..\..\Classificadores")

@@ -27,15 +27,21 @@ for i = 1:size(trainingSet.Files,1)
 end
 
 toc
-%% SVM
 fprintf('\nRealizando Treinamento...\n');
+%% SVM
+% tic
+% 
+% t = templateSVM();
+% Md1 = fitcecoc(concatImageMatrixTrain, transpose(trainingSet.Labels),...
+%     'Learners',t);
+% 
+% beep
+% toc
+%% KNN
 tic
 
-t = templateSVM();
-Md1 = fitcecoc(concatImageMatrixTrain, transpose(trainingSet.Labels),...
-    'Learners',t);
+Md1 = fitcknn(concatImageMatrixTrain,transpose(trainingSet.Labels));
 
-beep
 toc
 %% Preparação dos dados de teste
 tic

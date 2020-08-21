@@ -22,41 +22,45 @@ tic
 bag = bagOfFeatures(trainingSet);
 trainFeatures = encode(bag, trainingSet);
 
-beep
 toc
 %% SVM
-fprintf('\nRealizando Treinamento...\n');
-% load("..\Workspace\NIR\CP\V2\workspace_16_L_N_L_BH_bagOfFeatures.mat");
-tic
-
-% t = templateSVM();
+% fprintf('\nRealizando Treinamento...\n');
+% % load("..\Workspace\NIR\CP\V2\workspace_16_L_N_L_BH_bagOfFeatures.mat");
+% tic
+% 
+% % t = templateSVM();
+% % Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
+% %     'Learners',t,...
+% %     'Options', statset('UseParallel',true));
+% 
+% rng default
+% t = templateSVM('BoxConstraint', 0.018576,...
+%     'KernelScale', 0.0023518);
 % Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
 %     'Learners',t,...
+%     'Coding', 'onevsall',...
 %     'Options', statset('UseParallel',true));
+% 
+% % Mdl = fitcecoc(trainFeatures, trainingSet.Labels,...
+% %     'OptimizeHyperparameters','auto',...
+% %     'HyperparameterOptimizationOptions',struct('AcquisitionFunctionName',...
+% %     'expected-improvement-plus',...
+% %     'UseParallel',true,...
+% %     'ShowPlots',false,...
+% %     'Verbose',1));
+% beep
+% toc
+%% KNN
+tic
 
-rng default
-t = templateSVM('BoxConstraint', 0.018576,...
-    'KernelScale', 0.0023518);
-Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
-    'Learners',t,...
-    'Coding', 'onevsall',...
-    'Options', statset('UseParallel',true));
+Md1 = fitcknn(trainFeatures, trainingSet.Labels);
 
-% Mdl = fitcecoc(trainFeatures, trainingSet.Labels,...
-%     'OptimizeHyperparameters','auto',...
-%     'HyperparameterOptimizationOptions',struct('AcquisitionFunctionName',...
-%     'expected-improvement-plus',...
-%     'UseParallel',true,...
-%     'ShowPlots',false,...
-%     'Verbose',1));
-beep
 toc
 %% Preparação dos dados de teste
 tic
 
 testFeatures = encode(bag, testSet);
 
-beep
 toc
 %% Testando modelo
 tic
@@ -64,11 +68,12 @@ tic
 [pred score cost] = predict(Md1, testFeatures);
 accuracy = sum(testSet.Labels == pred)/size(testSet.Labels,1);
 
+beep
 toc
 %% Finalizando execução
 cd("..\..\Classificadores")
 %% functions
 function I = readFunction(file)
     I = imread(file);
-    I = preprocessor_01_R_V_H_BH(I);
+    I = preprocessor_18_L_N_L_P(I);
 end

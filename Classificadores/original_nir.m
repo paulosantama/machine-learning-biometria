@@ -28,7 +28,7 @@ end
 
 toc
 fprintf('\nRealizando Treinamento...\n');
-% %% SVM
+%% SVM
 % tic
 % 
 % t = templateSVM();

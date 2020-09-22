@@ -22,33 +22,44 @@ tic
 bag = bagOfFeatures(trainingSet);
 trainFeatures = encode(bag, trainingSet);
 
-% sizeConcat = size(trainingSet.readimage(1),1)*size(trainingSet.readimage(1),2)*3;
-% concatImageMatrixTrain = zeros(size(trainingSet.Files,1), sizeConcat);
-% for i = 1:size(trainingSet.Files,1)
-%     img = trainingSet.readimage(i);
-%     concatImageMatrixTrain(i, :) = reshape(img, [1, size(img,1)*size(img,2)*3]);
-% end
-
-% beep
 toc
 %% SVM
-fprintf('\nRealizando Treinamento...\n');
-tic
-
-% t = templateSVM();
+% fprintf('\nRealizando Treinamento...\n');
+% tic
+% 
+% % t = templateSVM();
+% % Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
+% %     'Learners',t,...
+% %     'Options', statset('UseParallel',true));
+% 
+% rng default
+% t = templateSVM('BoxConstraint', 0.018576,...
+%     'KernelScale', 0.0023518);
 % Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
 %     'Learners',t,...
+%     'Coding', 'onevsall',...
 %     'Options', statset('UseParallel',true));
+% 
+% beep
+% toc
+%% KNN
+tic
+
+% Md1 = fitcknn(trainFeatures, trainingSet.Labels);
 
 rng default
-t = templateSVM('BoxConstraint', 0.018576,...
-    'KernelScale', 0.0023518);
-Md1 = fitcecoc(trainFeatures, trainingSet.Labels,...
-    'Learners',t,...
-    'Coding', 'onevsall',...
-    'Options', statset('UseParallel',true));
+Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
+    'Distance', 'spearman',...
+    'NumNeighbors', 1);
 
-% beep
+% Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
+%     'OptimizeHyperparameters','auto',...
+%     'HyperparameterOptimizationOptions',struct(...
+%     'AcquisitionFunctionName','expected-improvement-plus',...
+%     'UseParallel',true,...
+%     'ShowPlots',false,...
+%     'Verbose',1));
+
 toc
 %% Preparação dos dados de teste
 tic
@@ -79,5 +90,5 @@ cd("..\..\Classificadores")
 %% functions
 function I = readFunction(file)
     I = imread(file);
-    I = preprocessor_01_R_V_H_BH(I);
+    I = preprocessor_20_L_V_L_W(I);
 end

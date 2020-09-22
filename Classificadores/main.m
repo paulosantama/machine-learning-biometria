@@ -53,7 +53,20 @@ toc
 %% KNN
 tic
 
-Md1 = fitcknn(trainFeatures, trainingSet.Labels);
+% Md1 = fitcknn(trainFeatures, trainingSet.Labels);
+
+rng default
+Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
+    'Distance', 'spearman',...
+    'NumNeighbors', 1);
+
+% Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
+%     'OptimizeHyperparameters','auto',...
+%     'HyperparameterOptimizationOptions',struct(...
+%     'AcquisitionFunctionName','expected-improvement-plus',...
+%     'UseParallel',true,...
+%     'ShowPlots',false,...
+%     'Verbose',1));
 
 toc
 %% Preparação dos dados de teste
@@ -75,5 +88,5 @@ cd("..\..\Classificadores")
 %% functions
 function I = readFunction(file)
     I = imread(file);
-    I = preprocessor_18_L_N_L_P(I);
+    I = preprocessor_19_L_N_L_W(I);
 end

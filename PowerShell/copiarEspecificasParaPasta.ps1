@@ -29,3 +29,5 @@ for ($i=0; $i -lt $array.Length; $i++) {
         }
     }
 }
+
+[Console]::Beep(500,500)

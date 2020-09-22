@@ -32,10 +32,10 @@ function I = preprocessor_10_R_V_L_W(imagem)
     adaptHistEqualRGB(:,:,2) = adaptHistEqualG;
     adaptHistEqualRGB(:,:,3) = adaptHistEqualB;
     
-    folder = dir(['E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Preprocessed\' '*.tif']);
-    index = size(folder,1) + 1;
-    path = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Preprocessed\',int2str(index));
-    imwrite(adaptHistEqualRGB, strcat(path,'_mao.tif'));
+%     folder = dir(['E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Preprocessed\' '*.tif']);
+%     index = size(folder,1) + 1;
+%     path = strcat('E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Preprocessed\',int2str(index));
+%     imwrite(adaptHistEqualRGB, strcat(path,'_mao.tif'));
     
     I = adaptHistEqualRGB;
 end

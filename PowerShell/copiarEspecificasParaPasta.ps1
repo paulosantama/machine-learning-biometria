@@ -1,6 +1,6 @@
 ﻿clear
 
-$var="*20_L_V_L_W*"
+$var="*06_R_N_L_BH*"
 $origem = "E:\Pontificia Universidade Catolica de Goias\TCC\Base de Dados\Banco de Dados Mãos - Original"
 $destino="E:\Pontificia Universidade Catolica de Goias\TCC\Projeto\saim\Dataset\"
 $array= @(get-childitem $origem)

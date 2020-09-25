@@ -38,9 +38,15 @@ fprintf('\nRealizando Treinamento...\n');
 % beep
 % toc
 %% KNN
+% tic
+% 
+% Md1 = fitcknn(concatImageMatrixTrain,transpose(trainingSet.Labels));
+% 
+% toc
+%% Decision Tree
 tic
 
-Md1 = fitcknn(concatImageMatrixTrain,transpose(trainingSet.Labels));
+Md1 = fitctree(concatImageMatrixTrain, transpose(trainingSet.Labels));
 
 toc
 %% Preparação dos dados de teste

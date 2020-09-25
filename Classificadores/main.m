@@ -23,8 +23,8 @@ bag = bagOfFeatures(trainingSet);
 trainFeatures = encode(bag, trainingSet);
 
 toc
+fprintf('\nRealizando Treinamento...\n');
 %% SVM
-% fprintf('\nRealizando Treinamento...\n');
 % % load("..\Workspace\NIR\CP\V2\workspace_16_L_N_L_BH_bagOfFeatures.mat");
 % tic
 % 
@@ -51,14 +51,14 @@ toc
 % beep
 % toc
 %% KNN
-tic
+% tic
 
 % Md1 = fitcknn(trainFeatures, trainingSet.Labels);
 
-rng default
-Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
-    'Distance', 'spearman',...
-    'NumNeighbors', 1);
+% rng default
+% Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
+%     'Distance', 'spearman',...
+%     'NumNeighbors', 1);
 
 % Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
 %     'OptimizeHyperparameters','auto',...
@@ -67,6 +67,12 @@ Md1 = fitcknn(trainFeatures, trainingSet.Labels,...
 %     'UseParallel',true,...
 %     'ShowPlots',false,...
 %     'Verbose',1));
+
+% toc
+%% Decision Tree
+tic
+
+Md1 = fitctree(trainFeatures, trainingSet.Labels);
 
 toc
 %% Preparação dos dados de teste
@@ -88,5 +94,5 @@ cd("..\..\Classificadores")
 %% functions
 function I = readFunction(file)
     I = imread(file);
-    I = preprocessor_19_L_N_L_W(I);
+    I = preprocessor_06_R_N_L_BH(I);
 end
